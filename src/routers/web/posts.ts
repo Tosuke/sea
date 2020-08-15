@@ -34,7 +34,6 @@ const callback = async (
         .leftJoinAndSelect("post.user", "users")
         .leftJoinAndSelect("users.avatarFile", "avatar_file")
         .leftJoinAndSelect("post.application", "applications")
-        .where("post.createdAt > :minReadableDate", { minReadableDate: ctx.state.session.user.minReadableDate })
     var order: "ASC" | "DESC" = "ASC"
     var limit = 101
 

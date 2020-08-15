@@ -187,7 +187,6 @@ router.get("/:id", async ctx => {
     const post = await getRepository(Post).findOne(
         {
             id,
-            createdAt: MoreThan(ctx.state.token.user.minReadableDate),
         },
         {
             relations: ["user", "user.avatarFile", "application"],
@@ -202,7 +201,6 @@ router.get("/:id/replies", async ctx => {
     const posts = await getRepository(Post).find({
         where: {
             inReplyToId: id,
-            createdAt: MoreThan(ctx.state.token.user.minReadableDate),
         },
         relations: ["user", "user.avatarFile", "application"],
         order: { id: "ASC" },

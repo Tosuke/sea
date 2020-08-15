@@ -22,7 +22,6 @@ router.get("/public", async ctx => {
         .leftJoinAndSelect("post.application", "applications")
         .limit(query.count || 20)
         .orderBy("post.createdAt", "DESC")
-        .where("post.createdAt > :minReadableDate", { minReadableDate: ctx.state.token.user.minReadableDate })
     if (query.sinceId) fetch = fetch.andWhere("post.id > :sinceId", { sinceId: query.sinceId })
     if (query.maxId) fetch = fetch.andWhere("post.id < :maxId", { maxId: query.maxId })
     if (query.search) fetch = fetch.andWhere("post.text LIKE :searchPattern", { searchPattern: query.search })
