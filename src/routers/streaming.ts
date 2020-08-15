@@ -82,14 +82,6 @@ export function streamingConnectionCallback(ws: WebSocket) {
                     ws.close()
                     return
                 }
-                if (token.user.inviteCode == null) {
-                    send({
-                        type: "error",
-                        message: "please check web interface of sea.",
-                    })
-                    ws.close()
-                    return
-                }
                 switch (data.stream) {
                     case "v1/timelines/public":
                         const redis = getRedisConnection()

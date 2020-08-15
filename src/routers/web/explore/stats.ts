@@ -11,7 +11,7 @@ const router = new Router<WebRouterState, WebRouterCustom>()
 router.get("/", async ctx => {
     ctx.renderReact(ExploreStats, {
         count: {
-            users: await getRepository(User).count({ where: { inviteCode: Not(IsNull()) } }),
+            users: await getRepository(User).count(),
             posts: [await getRepository(Post).count(), ctx.state.session!.user.postsCount] as [number, number],
             files: [
                 await getRepository(AlbumFile).count(),
