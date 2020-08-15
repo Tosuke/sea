@@ -2,22 +2,10 @@ import { UserSession } from "../../db/entities/userSession"
 import React from "react"
 import { Wrapper } from "../common/wrapper"
 
-function InputInviteCodeNotify() {
-    return (
-        <strong>
-            <a href="/input_invite_code">
-                招待コードを入力するまでは、全ての機能が利用できません。ここをクリックすると招待コードの入力画面に推移します
-            </a>
-        </strong>
-    )
-}
-
 export function Entrance({ session, threadNumber }: { session?: UserSession; threadNumber?: number }) {
-    const inputInviteCodeRequired = session && session.user.inviteCode == null
     return (
         <Wrapper>
             <h1>Sea</h1>
-            {inputInviteCodeRequired && <InputInviteCodeNotify />}
             <ul>
                 {session ? (
                     <>
