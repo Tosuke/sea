@@ -10,11 +10,10 @@ router.get("/", async ctx => {
 })
 
 router.get("/zyan_text", async ctx => {
-    const { minReadableDate } = ctx.state.session!.user
     const data = await getRepository(Post)
         .createQueryBuilder()
         .select(["COUNT(*) as count", "text"])
-        .where({ text: Like("%じゃん"), createdAt: MoreThan(minReadableDate) })
+        .where({ text: Like("%じゃん") })
         .groupBy("text")
         .having("COUNT(text) > 1")
         .orderBy("count", "DESC")
@@ -23,13 +22,11 @@ router.get("/zyan_text", async ctx => {
 })
 
 router.get("/same_text", async ctx => {
-    const { minReadableDate } = ctx.state.session!.user
     const days90 = new Date(Date.now() - 1000 * 60 * 60 * 24 * 90)
-    const limitDay = minReadableDate > days90 ? minReadableDate : days90
     const data = await getRepository(Post)
         .createQueryBuilder()
         .select(["COUNT(*) as count", "text"])
-        .where({ text: Not(""), createdAt: MoreThan(limitDay) })
+        .where({ text: Not(""), createdAt: MoreThan(days90) })
         .groupBy("text")
         .having("COUNT(text) > 1")
         .orderBy("count", "DESC")
@@ -38,11 +35,9 @@ router.get("/same_text", async ctx => {
 })
 
 router.get("/kitaa", async ctx => {
-    const { minReadableDate } = ctx.state.session!.user
     const data = await getRepository(Post)
         .createQueryBuilder()
         .select(["CHAR_LENGTH(SUBSTRING(text FROM 'きたあ+')) as charcnt", "COUNT(*) as cnt"])
-        .where({ createdAt: MoreThan(minReadableDate) })
         .andWhere("SUBSTRING(text FROM 'きたあ+') IS NOT NULL")
         .groupBy("charcnt")
         .orderBy("cnt", "DESC")
